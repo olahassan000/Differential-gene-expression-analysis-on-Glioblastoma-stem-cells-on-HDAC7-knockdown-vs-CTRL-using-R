@@ -14,3 +14,42 @@ This project investigates how HDAC7 depletion alters transcriptional programs as
 - enrichplot
 - Gene Ontology enrichment
 - GSEA
+
+
+# Project Overview :
+
+Glioblastoma (GBM) is an aggressive brain tumor characterized by extensive cellular and epigenetic plasticity, with glioblastoma stem cells (GSCs) contributing to tumor maintenance and therapeutic resistance. While histone deacetylases (HDACs) are established therapeutic targets in cancer, the limited isoform specificity of many HDAC inhibitors can contribute to off-target effects and has motivated the development of more selective therapeutic strategies.
+
+My doctoral research identified HDAC7, a class IIa histone deacetylase, as a potential epigenetic vulnerability in GBM. HDAC7 was found to be highly expressed in GBM and multiple other malignancies, while its inhibition impaired the self-renewal and viability of patient-derived GSCs.
+
+This project investigates the transcriptional consequences of HDAC7 knockdown in patient-derived GSCs using RNA-seq and differential gene expression analysis. The broader research program combined transcriptomics, epigenomics, protein-interaction studies, functional assays, and therapeutic development to characterize the molecular role of HDAC7 and evaluate its potential as a selective therapeutic target in cancer.
+
+
+# Research Question :
+
+How does HDAC7 inhibition alter transcriptional programs in patient-derived glioblastoma stem cells, and what do these changes reveal about its role in cancer stemness and tumor-associated pathways?
+
+# Hypothesis :
+
+HDAC7 functions as an important epigenetic regulator of glioblastoma stem-cell state, and its inhibition will disrupt transcriptional programs associated with cancer stemness and tumor progression.
+
+# Experimental Design :
+
+RNA-seq was performed on patient-derived glioblastoma stem cell (GSC) models following HDAC7 siRNA knockdown to characterize transcriptional changes associated with HDAC7 depletion.
+Biological system: Patient-derived glioblastoma stem cells
+
+- Perturbation: HDAC7 knockdown using siRNA
+- Comparison: siHDAC7 vs. sicontrol
+- Assay: Bulk RNA-seq
+- Primary analysis: Differential gene expression using DESeq2
+- Downstream analyses: PCA, differential expression visualization, gene-level interrogation, and pathway enrichment/GSEA
+
+## Analysis Strategy :
+
+Raw/counts RNA-seq data were processed into gene-level expression matrices, QC'ed and analyzed using an R/Bioconductor workflow. Differential expression was evaluated independently across GSC models to identify transcriptional responses to HDAC7 depletion, followed by pathway-level analyses to determine the biological programs affected by HDAC7 knockdown.
+
+GSC model:
+GSC 1 (GBM2): siHDAC7 vs CTRL
+GSC 2 (GBM11): siHDAC7 vs CTRL
+GSC 3 (GB24): siHDAC7 vs CTRL
+
