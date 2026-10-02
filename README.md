@@ -48,8 +48,8 @@ Biological system: Patient-derived glioblastoma stem cells
 
 Raw/counts RNA-seq data were processed into gene-level expression matrices, QC'ed and analyzed using an R/Bioconductor workflow. Differential expression was evaluated independently across GSC models to identify transcriptional responses to HDAC7 depletion, followed by pathway-level analyses to determine the biological programs affected by HDAC7 knockdown.
 
-GSC model: # GSCs from 3 diffrent GBM patients, 2 replica each
-GSC 1 (GBM2): siHDAC7 vs CTRL
-GSC 2 (GBM11): siHDAC7 vs CTRL
-GSC 3 (GB24): siHDAC7 vs CTRL
+### GSC model: GSCs from 3 diffrent GBM patients, 2 replica each
+- GSC 1 (GBM2): siHDAC7 vs CTRL
+- GSC 2 (GBM11): siHDAC7 vs CTRL
+- GSC 3 (GB24): siHDAC7 vs CTRL
 
