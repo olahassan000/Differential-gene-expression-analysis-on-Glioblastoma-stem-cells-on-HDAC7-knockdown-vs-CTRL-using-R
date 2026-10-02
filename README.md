@@ -53,3 +53,10 @@ Raw/counts RNA-seq data were processed into gene-level expression matrices, QC'e
 - GSC 2 (GBM11): siHDAC7 vs CTRL
 - GSC 3 (GB24): siHDAC7 vs CTRL
 
+### Full Analysis
+
+**[View the complete rendered RNA-seq analysis →](https://olahassan000.github.io/HDAC7-GBM-Transcriptomics/)**
+
+The full R Markdown workflow includes DESeq2 differential
+expression analysis, visualization, pathway analysis, and biological
+interpretation.
