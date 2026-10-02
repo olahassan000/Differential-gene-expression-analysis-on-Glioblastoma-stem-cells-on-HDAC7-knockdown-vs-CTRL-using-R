@@ -13,8 +13,35 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+#Structure of the analysis:
+
+## 1. Import data:  data are normalized counts passed QC
+## 2. Sample Metadata and Experimental Design
+## 3. Differential Expression Analysis
+### 3.1 DESeq2 Model
+### 3.2 Differentially Expressed Genes
+### 3.3 Samples correlation through PCA
+
+## 4. Differential Expression Visualization
+### 4.1 Volcano Plot
+### 4.2 MA Plot
+### 4.3 Heatmap Clustering
+### 4.4 Expression Distributions
+
+## 5. Pathway Analysis
+### 5.1 Gene Set Enrichment Analysis  & Pathway Visualization
+### 5.2. Genes of Interest
+
+## 6. Transcription factor enrichment analysis
+
+## 7. Stemness enrichment and phenotype analysis
+
+## 8. Stemness gene signature analysis
 
 
+
+
+## 1. Import data (normalized counts):  
 ```{r }
 
 #First GSC
@@ -57,14 +84,7 @@ boxplot(GB24_counts)
 ```
 
 
-## Loading package DESeq for Differential expression 
-
-```{r }
-library(DESeq2)
-
-```
-
-## Buiilding the exp. design and metadata
+## 2. Sample Metadata and Experimental Design
 
 ```{r }
 
@@ -98,10 +118,22 @@ metadata_GB24= data.frame(colnames(GB24_counts), type, exp.des_GB24,  row.names=
 
 ```
 
-## Construct DESEQDataSet Object
+
+## 3. Differential Expression Analysis
+
 
 ```{r }
 
+library(DESeq2)
+
+```
+
+
+### 3.1 DESeq2 Model
+
+```{r }
+
+# Construct DESEQDataSet Object
 
 #GB2
 DEseq_GB2 <- DESeqDataSetFromMatrix(countData=GB2_counts, 
@@ -125,7 +157,7 @@ DEseq_GB24
 
 ```
 
-## Now run DESEQ function
+### Now run DESEQ function
 
 ```{r }
 
@@ -135,7 +167,7 @@ dds_GB24 <- DESeq(DEseq_GB24)
 
 ```
 
-## Take a look at the results table
+### 3.2 Differentially Expressed Genes
 
 ```{r }
 ##Take a look at the results table
@@ -276,7 +308,7 @@ write.csv(res_GB24_Sig_0.05_down, file= "Downregulated_GB24_Sig_0.05_KD~Ctrl.csv
 
 ```
 
-## Summary of differential gene expression
+### Summary of differential gene expression
 
 ```{r }
 summary(res_GB2_Sig_0.05)  
@@ -294,7 +326,7 @@ summary(res_GB24_Sig_0.001)
 
 ```
 
-## Diff expressed Sign. genes for FDR <0.05
+### Matches between all Diff expressed Sign. genes for FDR <0.05
 
 ```{r }
 # Diff expressed Sign. genes for GB2
@@ -335,7 +367,7 @@ write.csv(GSCs_Matches_all, file= "Diffexpress_3 GSCs_Sig_0.05_KD~Ctrl.csv", row
 ```
 
 
-## We can use plotCounts fxn to compare the normalized counts between control and KD groups for our top 6 genes 
+### Comparing normalized counts between control and KD groups for our top 6 genes 
 
 #GB2
 
@@ -431,11 +463,16 @@ g_HDAC7_GB24 + geom_boxplot(aes(fill=exp.des_GB24)) +
 ```
 
 
+### 3.3 Samples correlation through PCA
+
+
+```{r }
+
 ## PCA
 #First we need to transform the raw count data
 #vst function will perform variance stabilizing transformation
 
-```{r }
+
 #GB2
 vsdata_GB2 <- vst(dds_GB2, blind=FALSE)
 plotPCA(vsdata_GB2, intgroup="exp.des_GB2") # using the DESEQ2 plotPCA fxn we can
@@ -453,8 +490,9 @@ plotPCA(vsdata_GB24, intgroup="exp.des_GB24") # using the DESEQ2 plotPCA fxn we 
 
 ```
 
+## 4. Differential Expression Visualization
 
-## Volcano Plot scales significance P value at y axis and fold change at x axis
+### 4.1 Volcano Plot 
 
 ```{r }
 
@@ -616,9 +654,14 @@ EnhancedVolcano(res_GB24_Sig_0.05,
 
 ```
 
-## MA plot : MA plot describes the differential expression by plotting log transformed expression values with mean average values, while volcano plot scales significance value at y axis and fold change at x axis
+### 4.2 MA Plot
+
 
 ```{r }
+
+
+## MA plot describes the differential expression by plotting log transformed expression values with mean average values, while volcano plot scales significance value at y axis and fold change at x axis
+
 par(mfrow=c(1,3))
 
 
@@ -630,26 +673,29 @@ plotMA(GB24_all_diff_expressed, ylim=c(-7,7), main="MA plot_GB24")
 ```
 
 
+### 4.3 Heatmap Clustering
 
-## Load Pheatmap package
 
 ```{r }
+
+## Load packages
 library("pheatmap")
-library("RColorBrewer") # Load a package giving more colors
+library("RColorBrewer") #  a package giving more vibrant colors
 
 ```
 
-## Do the rlog transformation:
 
 
 ```{r }
+
+## Do the rlog transformation:
+
 rld_GB2 = rlogTransformation(dds_GB2)
 rld_GB11 = rlogTransformation(dds_GB11)
 rld_GB24 = rlogTransformation(dds_GB24)
 
 
 ##Clustering the sample-to-sample distances
-##Pheatmap
 
 #GB2
 distsRL_GB2 <- dist(t(assay(rld_GB2))) # Calculate distances using transformed (and normalized) counts
@@ -691,7 +737,7 @@ pheatmap(mat_GB24,
 
 ```
 
-## Heatmap of the most significantly differentially expressed genes using Pheatmap library
+### Heatmap of the most significantly differentially expressed genes 
 
 
 ```{r }
@@ -840,8 +886,8 @@ goplot(ego_GB24, font.size = 8, showCategory = 5)
 
 ```
 
+## 5. Pathway Analysis
 
-Functional enrichment analysis by GSEA
 ```{r }
 
 library(clusterProfiler)
@@ -854,8 +900,8 @@ library(org.Hs.eg.db)
 HA = org.Hs.eg.db
 ```
 
+### 5.1 Functional enrichment analysis by GSEA
 
-Functional enrichment analysis by GSEA
 ```{r }
 
 # reading in data from deseq2
@@ -951,6 +997,8 @@ gse_GB24 <- gseGO(geneList=gene_list_GB24,
 emapplot(gse_GB24, showCategory = 12)
 
 ```
+
+### 5.2. Genes of Interest
 
 ```{r }
 #GB2
@@ -1114,13 +1162,13 @@ GB11_counts
 
 
 
-## Transcrption factor enrichment analysis:
+## 6. Transcrption factor enrichment analysis:
 **We put the genes that were downregulated by the HDAC7 knockdown from the 3GSCs on the ChEA3 webtool, https://maayanlab.cloud/chea3/**
 
-## Stemness enrichment and phenotype analysis:
+## 7. Stemness enrichment and phenotype analysis:
 **We put the genes that were downregulated by the HDAC7 knockdown from the 3 GSCs on the StemChecker webtool, http://stemchecker.sysbiolab.eu**
 
-## Stemness gene signature analysis:
+## 8. Stemness gene signature analysis:
 **We put the genes that were downregulated by the HDAC7 knockdown from the 3 GSCs on the GSEA software **
 ## References:
 
